@@ -4,13 +4,13 @@ class AllRequestModel {
     final String namaApartemen;
     final String alamat;
     final String gambar;
-    final int id;
+    int? id;
 
     AllRequestModel({
         required this.namaApartemen,
         required this.alamat,
         required this.gambar,
-        required this.id,
+        this.id,
     });
 
     factory AllRequestModel.fromRawJson(String str) => AllRequestModel.fromJson(json.decode(str));

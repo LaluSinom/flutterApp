@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttercrud/datasources/remote_datasource.dart';
+import 'package:fluttercrud/models/requests/all_request_model.dart';
+import 'package:fluttercrud/models/response/another_response_model.dart';
 import 'package:fluttercrud/models/response/get_apartemen_response_model.dart';
+import 'package:fluttercrud/pages/widget/apartemen_show_dialog_add.dart';
 // import 'package:fluttercrud/widgets/apartemen_show_dialog_update.dart';
 
 import '../widget/apartemen_show_dialog_update.dart';
@@ -31,6 +34,14 @@ class _ApartemenUiState extends State<ApartemenUi> {
     );
   }
 
+  void _showCreateDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ApartemenShowDialogAdd();
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +65,8 @@ class _ApartemenUiState extends State<ApartemenUi> {
                   elevation: 3,
                   margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     leading: Image.network(
                       apartemen.gambar,
                       width: 60,
@@ -63,7 +75,8 @@ class _ApartemenUiState extends State<ApartemenUi> {
                     ),
                     title: Text(
                       apartemen.namaApartemen,
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(
                       apartemen.alamat,
@@ -75,13 +88,47 @@ class _ApartemenUiState extends State<ApartemenUi> {
                         IconButton(
                           icon: Icon(Icons.edit),
                           onPressed: () {
-                            _showUpdateDialog(context, apartemen); // Panggil fungsi _showUpdateDialog
+                            _showUpdateDialog(context,
+                                apartemen); // Panggil fungsi _showUpdateDialog
                           },
                         ),
                         IconButton(
                           icon: Icon(Icons.delete),
-                          onPressed: () {
-                            // Handle delete action
+                          onPressed: () async {
+                            AllRequestModel deleteModel = AllRequestModel(
+                              id: int.parse(apartemen.id),
+                              namaApartemen: apartemen.namaApartemen,
+                              alamat: apartemen.alamat,
+                              gambar: apartemen.gambar,
+                            );
+
+                            try {
+                              AnotherResponseModel response =
+                                  await ApartemenRemoteDatasource()
+                                      .deleteApartemen(deleteModel);
+                              if (response.status == 200) {
+                                // Handle successful update if necessary
+                                print('delete successful: ${response.result}');
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          'delete successful: ${response.result}')),
+                                );
+                              } else {
+                                // Handle error
+                                print('delete failed: ${response.result}');
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          'delete failed: ${response.result}')),
+                                );
+                              }
+                            } catch (e) {
+                              print('delete error: $e');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('delete error: $e')),
+                              );
+                            }
                           },
                         ),
                       ],
@@ -97,6 +144,13 @@ class _ApartemenUiState extends State<ApartemenUi> {
             return Center(child: Text('No data available'));
           }
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _showCreateDialog(
+              context); // Implement this method to show a dialog for creating a new apartment
+        },
+        child: Icon(Icons.add),
       ),
     );
   }
