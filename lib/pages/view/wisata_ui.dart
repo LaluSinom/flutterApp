@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttercrud/datasources/remote_wisata_datasource.dart';
 import 'package:fluttercrud/models/requests/all_request_wisata_model.dart';
 import 'package:fluttercrud/models/response/get_wisata_response_model.dart';
+import 'package:fluttercrud/pages/view/detail_wisata.dart';
 import 'package:fluttercrud/pages/widget/wisata_show_dialog_update.dart';
 import 'package:fluttercrud/pages/widget/wisata_show_dialog_add.dart';
 
@@ -133,6 +134,14 @@ class _WisataUiState extends State<WisataUi> {
                         ),
                       ],
                     ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                DetailWisata(wisata: wisata)),
+                      );
+                    },
                   ),
                 );
               },

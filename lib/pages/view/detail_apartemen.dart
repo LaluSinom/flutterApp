@@ -34,21 +34,7 @@ class _DetailApartemenState extends State<DetailApartemen> {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(20.0),
-        height: 90.0,
-        child: ElevatedButton.icon(
-          icon: const Icon(Icons.shopping_cart),
-          label: const Text("Add to cart"),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blueGrey[900],
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16), // <-- Radius
-            ),
-          ),
-          onPressed: () {},
-        ),
-      ),
+      
       body: SingleChildScrollView(
         controller: ScrollController(),
         child: Column(
@@ -61,9 +47,7 @@ class _DetailApartemenState extends State<DetailApartemen> {
                     height: MediaQuery.of(context).size.height / 2.6,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(
-                         widget.apartemen.gambar
-                          ),
+                        image: NetworkImage(widget.apartemen.gambar),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -111,14 +95,7 @@ class _DetailApartemenState extends State<DetailApartemen> {
                 children: [
                   const Row(
                     children: [
-                      Expanded(
-                        child: Text(
-                          "Women",
-                          style: TextStyle(
-                            fontSize: 10.0,
-                          ),
-                        ),
-                      ),
+                    
                       Icon(
                         Icons.star,
                         color: Colors.orange,
@@ -135,7 +112,7 @@ class _DetailApartemenState extends State<DetailApartemen> {
                     padding: const EdgeInsets.symmetric(vertical: 4.0),
                     width: MediaQuery.of(context).size.width,
                     child: const Text(
-                      "Goohan Tank Top",
+                      "Best Offer",
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -206,162 +183,6 @@ class _DetailApartemenState extends State<DetailApartemen> {
                   ),
                   const SizedBox(
                     height: 20.0,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    width: MediaQuery.of(context).size.width,
-                    child: const Text(
-                      "Size",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ),
-                  Builder(
-                    builder: (context) {
-                      List items = [
-                        {
-                          "label": "XS",
-                          "value": "XS",
-                        },
-                        {
-                          "label": "S",
-                          "value": "S",
-                        },
-                        {
-                          "label": "M",
-                          "value": "M",
-                        },
-                        {
-                          "label": "L",
-                          "value": "L",
-                        },
-                        {
-                          "label": "XL",
-                          "value": "XL",
-                        },
-                        {
-                          "label": "XXL",
-                          "value": "XXL",
-                        },
-                        {
-                          "label": "XXXL",
-                          "value": "XXXL",
-                        }
-                      ];
-
-                      return SizedBox(
-                        height: 60.0,
-                        child: ListView.builder(
-                          itemCount: items.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            Map item = items[index];
-
-                            return Container(
-                              margin: const EdgeInsets.only(right: 10.0),
-                              child: CircleAvatar(
-                                backgroundColor:
-                                    Colors.blueGrey.withOpacity(0.4),
-                                child: Text(
-                                  item["label"],
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    width: MediaQuery.of(context).size.width,
-                    child: const Text(
-                      "Color",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ),
-                  Builder(
-                    builder: (context) {
-                      List items = [
-                        {
-                          "color": Colors.white,
-                          "text_color": Colors.black,
-                          "label": "White",
-                          "value": "White",
-                        },
-                        {
-                          "color": Colors.black,
-                          "text_color": Colors.white,
-                          "label": "Black",
-                          "value": "Black",
-                        },
-                        {
-                          "color": Colors.brown,
-                          "text_color": Colors.white,
-                          "label": "Brown",
-                          "value": "Brown",
-                        },
-                        {
-                          "color": Colors.green,
-                          "text_color": Colors.white,
-                          "label": "Green",
-                          "value": "Green",
-                        },
-                        {
-                          "color": Colors.blue,
-                          "text_color": Colors.white,
-                          "label": "Blue",
-                          "value": "Blue",
-                        },
-                      ];
-
-                      return SizedBox(
-                        height: 40.0,
-                        child: ListView.builder(
-                          itemCount: items.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            Map item = items[index];
-
-                            return Container(
-                              width: 100.0,
-                              margin: const EdgeInsets.only(right: 10.0),
-                              decoration: BoxDecoration(
-                                color: item["color"],
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(
-                                    16.0,
-                                  ),
-                                ),
-                                border: Border.all(
-                                  width: 0.4,
-                                  color: Colors.blueGrey[300]!,
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  item["label"],
-                                  style: TextStyle(
-                                    color: item["text_color"],
-                                    fontSize: 11.0,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
                   ),
                 ],
               ),

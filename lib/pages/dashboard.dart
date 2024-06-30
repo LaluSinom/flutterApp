@@ -54,12 +54,12 @@ class _DashboardState extends State<Dashboard> {
               ),
               label: "Order",
             ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.favorite,
-              ),
-              label: "Favorite",
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(
+            //     Icons.favorite,
+            //   ),
+            //   label: "Favorite",
+            // ),
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.person,

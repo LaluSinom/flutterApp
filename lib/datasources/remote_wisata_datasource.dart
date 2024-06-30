@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 class WisataRemoteDatasource {
   Future<GetWisataResponseModel> getWisata() async {
-    final url = Uri.parse("http://localhost/be-mobile/wisata/getWisata.php");
+    final url = Uri.parse("http://192.168.234.1/be-mobile/wisata/getWisata.php");
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -16,7 +16,7 @@ class WisataRemoteDatasource {
   }
 
   Future<AnotherResponseModel> addWisata(AllRequestWisataModel model) async {
-    final url = Uri.parse("http://localhost/be-mobile/wisata/createWisata.php");
+    final url = Uri.parse("http://192.168.234.1/be-mobile/wisata/createWisata.php");
     final response = await http.post(url,
       body: model.toRawJson(),
       headers: {'Content-Type': 'application/json'}
@@ -30,7 +30,7 @@ class WisataRemoteDatasource {
   }
 
   Future<AnotherResponseModel> updateWisata(AllRequestWisataModel model) async {
-    final url = Uri.parse("http://localhost/be-mobile/wisata/updateWisata.php");
+    final url = Uri.parse("http://192.168.234.1/be-mobile/wisata/updateWisata.php");
     final response = await http.post(url,
       body: model.toRawJson(), 
       headers: {'Content-Type': 'application/json'}
@@ -44,7 +44,7 @@ class WisataRemoteDatasource {
   }
 
   Future<AnotherResponseModel> deleteWisata(AllRequestWisataModel model) async {
-    final url = Uri.parse("http://localhost/be-mobile/wisata/deleteWisata.php");
+    final url = Uri.parse("http://192.168.234.1/be-mobile/wisata/deleteWisata.php");
     final response = await http.post(url,
       body: model.toRawJson(), 
       headers: {'Content-Type': 'application/json'}
