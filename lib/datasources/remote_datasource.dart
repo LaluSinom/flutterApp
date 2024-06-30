@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 class ApartemenRemoteDatasource {
   Future<GetApartemenResponseModel> getApartemen() async {
     final url = Uri.parse(
-        "http://192.168.37.2/be-mobile/apartemen/getApartemen.php");
+        "http://localhost//be-mobile/apartemen/getApartemen.php");
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -19,7 +19,7 @@ class ApartemenRemoteDatasource {
 
   Future<AnotherResponseModel> addApartemen(AllRequestModel model) async {
     final url =
-        Uri.parse("http://192.168.37.2/be-mobile/apartemen/createApartemen.php");
+        Uri.parse("http://localhost/be-mobile/apartemen/createApartemen.php");
     final response = await http.post(url,
         body: model.toRawJson(), headers: {'Content-Type': 'application/json'});
 
@@ -33,7 +33,7 @@ class ApartemenRemoteDatasource {
 
   Future<AnotherResponseModel> updateApartemen(AllRequestModel model) async {
     final url = Uri.parse(
-        "http://192.168.37.2/be-mobile/apartemen/updateApartemen.php");
+        "http://localhost/be-mobile/apartemen/updateApartemen.php");
     final response = await http.post(url,
         body: model.toRawJson(), headers: {'Content-Type': 'application/json'});
 
@@ -46,7 +46,7 @@ class ApartemenRemoteDatasource {
 
   Future<AnotherResponseModel> deleteApartemen(AllRequestModel model) async {
     final url = Uri.parse(
-        "http://192.168.37.2/be-mobile/apartemen/deleteApartemen.php");
+        "http://localhost/be-mobile/apartemen/deleteApartemen.php");
     final response = await http.post(url,
         body: model.toRawJson(), headers: {'Content-Type': 'application/json'});
 

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttercrud/pages/view/apartemen_ui.dart';
+import 'package:fluttercrud/pages/view/wisata_ui.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -27,9 +28,7 @@ class _DashboardState extends State<Dashboard> {
           index: selectedIndex,
           children: [
             ApartemenUi(),
-            Container(
-              color: Colors.green,
-            ),
+            WisataUi(),
             Container(
               color: Colors.blue,
             ),

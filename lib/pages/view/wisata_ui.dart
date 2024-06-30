@@ -1,56 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:fluttercrud/datasources/remote_datasource.dart';
-import 'package:fluttercrud/models/requests/all_request_model.dart';
-import 'package:fluttercrud/models/response/another_response_model.dart';
-import 'package:fluttercrud/models/response/get_apartemen_response_model.dart';
-import 'package:fluttercrud/pages/view/detail_apartemen.dart';
-import 'package:fluttercrud/pages/widget/apartemen_show_dialog_add.dart';
-// import 'package:fluttercrud/widgets/apartemen_show_dialog_update.dart';
+import 'package:fluttercrud/datasources/remote_wisata_datasource.dart';
+import 'package:fluttercrud/models/requests/all_request_wisata_model.dart';
+import 'package:fluttercrud/models/response/get_wisata_response_model.dart';
+import 'package:fluttercrud/pages/widget/wisata_show_dialog_update.dart';
+import 'package:fluttercrud/pages/widget/wisata_show_dialog_add.dart';
 
-import '../widget/apartemen_show_dialog_update.dart';
-
-class ApartemenUi extends StatefulWidget {
-  const ApartemenUi({Key? key}) : super(key: key);
+class WisataUi extends StatefulWidget {
+  const WisataUi({Key? key}) : super(key: key);
 
   @override
-  _ApartemenUiState createState() => _ApartemenUiState();
+  _WisataUiState createState() => _WisataUiState();
 }
 
-class _ApartemenUiState extends State<ApartemenUi> {
-  late Future<GetApartemenResponseModel> _futureApartemen;
-  final ApartemenRemoteDatasource _datasource = ApartemenRemoteDatasource();
+class _WisataUiState extends State<WisataUi> {
+  late Future<GetWisataResponseModel> _futureWisata;
+  final WisataRemoteDatasource _datasource = WisataRemoteDatasource();
 
   @override
   void initState() {
     super.initState();
-    _futureApartemen = _datasource.getApartemen();
+    _futureWisata = _datasource.getWisata();
   }
 
-  void _showUpdateDialog(BuildContext context, Result apartemen) {
+  void _showUpdateDialog(BuildContext context, Wisata wisata) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return ApartemenShowDialogUpdate(apartemen: apartemen);
+        return WisataShowDialogUpdate(wisata: wisata);
       },
     );
   }
 
   void _showCreateDialog(BuildContext context) {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return ApartemenShowDialogAdd();
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return WisataShowDialogAdd();
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Apartemen List'),
+        title: Text('Wisata List'),
       ),
-      body: FutureBuilder<GetApartemenResponseModel>(
-        future: _futureApartemen,
+      body: FutureBuilder<GetWisataResponseModel>(
+        future: _futureWisata,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -61,7 +58,7 @@ class _ApartemenUiState extends State<ApartemenUi> {
             return ListView.builder(
               itemCount: response.result.length,
               itemBuilder: (context, index) {
-                final apartemen = response.result[index];
+                final wisata = response.result[index];
                 return Card(
                   elevation: 3,
                   margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -69,18 +66,18 @@ class _ApartemenUiState extends State<ApartemenUi> {
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     leading: Image.network(
-                      apartemen.gambar,
+                      wisata.gambar,
                       width: 60,
                       height: 60,
                       fit: BoxFit.cover,
                     ),
                     title: Text(
-                      apartemen.namaApartemen,
+                      wisata.namaWisata,
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(
-                      apartemen.alamat,
+                      wisata.alamat,
                       style: TextStyle(fontSize: 14),
                     ),
                     trailing: Row(
@@ -89,59 +86,53 @@ class _ApartemenUiState extends State<ApartemenUi> {
                         IconButton(
                           icon: Icon(Icons.edit),
                           onPressed: () {
-                            _showUpdateDialog(context,
-                                apartemen); // Panggil fungsi _showUpdateDialog
+                            _showUpdateDialog(context, wisata);
                           },
                         ),
                         IconButton(
                           icon: Icon(Icons.delete),
                           onPressed: () async {
-                            AllRequestModel deleteModel = AllRequestModel(
-                              id: int.parse(apartemen.id),
-                              namaApartemen: apartemen.namaApartemen,
-                              alamat: apartemen.alamat,
-                              gambar: apartemen.gambar,
+                            AllRequestWisataModel deleteWisataModel =
+                                AllRequestWisataModel(
+                              id: int.parse(wisata.id),
+                              nama_wisata: wisata.namaWisata,
+                              alamat: wisata.alamat,
+                              gambar: wisata.gambar,
+                              jam_layanan: wisata.jamLayanan,
+                              jam_tutup: wisata.jamTutup,
                             );
 
                             try {
-                              AnotherResponseModel response =
-                                  await ApartemenRemoteDatasource()
-                                      .deleteApartemen(deleteModel);
+                              final response = await _datasource
+                                  .deleteWisata(deleteWisataModel);
                               if (response.status == 200) {
-                                // Handle successful update if necessary
-                                print('delete successful: ${response.result}');
+                                print('Delete successful: ${response.result}');
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                       content: Text(
-                                          'delete successful: ${response.result}')),
+                                          'Delete successful: ${response.result}')),
                                 );
+                                setState(() {
+                                  _futureWisata = _datasource.getWisata();
+                                });
                               } else {
-                                // Handle error
-                                print('delete failed: ${response.result}');
+                                print('Delete failed: ${response.result}');
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                       content: Text(
-                                          'delete failed: ${response.result}')),
+                                          'Delete failed: ${response.result}')),
                                 );
                               }
                             } catch (e) {
-                              print('delete error: $e');
+                              print('Delete error: $e');
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('delete error: $e')),
+                                SnackBar(content: Text('Delete error: $e')),
                               );
                             }
                           },
                         ),
                       ],
                     ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                DetailApartemen(apartemen: apartemen)),
-                      );
-                    },
                   ),
                 );
               },
@@ -153,8 +144,7 @@ class _ApartemenUiState extends State<ApartemenUi> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _showCreateDialog(
-              context); // Implement this method to show a dialog for creating a new apartment
+          _showCreateDialog(context);
         },
         child: Icon(Icons.add),
       ),
